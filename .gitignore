@@ -1,0 +1,17 @@
+# LifeOS 90 gitignore
+.venv/
+node_modules/
+dist/
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+database/*.db
+database/*.db-shm
+database/*.db-wal
+database/backups/*
+!database/backups/.gitkeep
+!database/.gitkeep
+.coverage
+htmlcov/
+*.log
