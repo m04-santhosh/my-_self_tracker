@@ -102,7 +102,7 @@ export const FinancePage: React.FC = () => {
   });
 
   return (
-    <div className="flex-1 overflow-y-auto px-4 py-6 md:px-8 max-w-5xl mx-auto space-y-6 pb-24 md:pb-12">
+    <div className="flex-1 overflow-y-auto px-4 py-4 md:py-6 md:px-8 max-w-5xl mx-auto space-y-4 md:space-y-6 pb-28 md:pb-12 w-full max-w-full overflow-x-hidden">
       {/* Header */}
       <div className="pb-4 border-b border-slate-800">
         <h1 className="text-2xl font-extrabold text-white tracking-tight">Personal Finance</h1>
@@ -356,22 +356,22 @@ export const FinancePage: React.FC = () => {
                   key={tx.id}
                   className="p-3.5 rounded-xl border border-slate-800/80 bg-slate-950/70 flex items-center justify-between gap-3"
                 >
-                  <div className="flex items-center gap-3">
-                    <div className={`p-2 rounded-xl ${
+                  <div className="flex items-center gap-3 min-w-0 flex-1">
+                    <div className={`p-2 rounded-xl flex-shrink-0 ${
                       tx.type === 'income' ? 'bg-emerald-500/10 text-emerald-400' : 'bg-rose-500/10 text-rose-400'
                     }`}>
                       {tx.type === 'income' ? <ArrowDownRight className="w-4 h-4" /> : <ArrowUpRight className="w-4 h-4" />}
                     </div>
-                    <div>
-                      <div className="flex items-center gap-2">
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center gap-2 flex-wrap">
                         <span className="text-xs font-semibold text-white capitalize">{tx.category}</span>
-                        {tx.note && <span className="text-xs text-slate-400">• {tx.note}</span>}
+                        {tx.note && <span className="text-xs text-slate-400 truncate max-w-[140px] sm:max-w-xs">• {tx.note}</span>}
                       </div>
-                      <span className="text-[11px] text-slate-400 font-mono">{tx.date}</span>
+                      <span className="text-[11px] text-slate-400 font-mono block">{tx.date}</span>
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-2 flex-shrink-0">
                     <span className={`text-sm font-bold font-mono ${
                       tx.type === 'income' ? 'text-emerald-400' : 'text-slate-200'
                     }`}>
@@ -379,7 +379,8 @@ export const FinancePage: React.FC = () => {
                     </span>
                     <button
                       onClick={() => handleDeleteTransaction(tx.id)}
-                      className="p-1.5 text-slate-400 hover:text-rose-400 transition-colors"
+                      className="p-2 text-slate-400 hover:text-rose-400 transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center rounded-lg hover:bg-slate-800/50"
+                      title="Delete transaction"
                     >
                       <Trash2 className="w-3.5 h-3.5" />
                     </button>

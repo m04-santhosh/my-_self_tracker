@@ -51,7 +51,7 @@ export const AnalyticsPage: React.FC = () => {
   const hasSleepData = dailyData.some((d) => d.sleep_hours !== null);
 
   return (
-    <div className="flex-1 overflow-y-auto px-4 py-6 md:px-8 max-w-5xl mx-auto space-y-6 pb-24 md:pb-12">
+    <div className="flex-1 overflow-y-auto px-4 py-4 md:py-6 md:px-8 max-w-5xl mx-auto space-y-4 md:space-y-6 pb-28 md:pb-12 w-full max-w-full overflow-x-hidden">
       {/* Header */}
       <div className="pb-4 border-b border-slate-800">
         <h1 className="text-2xl font-extrabold text-white tracking-tight">Analytics & Trends</h1>

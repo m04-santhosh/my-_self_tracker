@@ -97,7 +97,7 @@ export const ComparePage: React.FC = () => {
   };
 
   return (
-    <div className="flex-1 overflow-y-auto px-4 py-6 md:px-8 max-w-5xl mx-auto space-y-6 pb-24 md:pb-12">
+    <div className="flex-1 overflow-y-auto px-4 py-4 md:py-6 md:px-8 max-w-5xl mx-auto space-y-4 md:space-y-6 pb-28 md:pb-12 w-full max-w-full overflow-x-hidden">
       {/* Header */}
       <div className="pb-4 border-b border-slate-800">
         <h1 className="text-2xl font-extrabold text-white tracking-tight">Period Comparison</h1>
@@ -107,35 +107,35 @@ export const ComparePage: React.FC = () => {
       </div>
 
       {/* Preset Buttons */}
-      <div className="flex flex-wrap items-center gap-2">
-        <span className="text-xs text-slate-400 mr-1">Presets:</span>
+      <div className="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar -mx-4 px-4 sm:mx-0 sm:px-0">
+        <span className="text-xs text-slate-400 shrink-0 font-medium">Presets:</span>
         <button
           onClick={() => applyPreset('today_vs_yesterday')}
-          className="px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-900 border border-slate-800 text-slate-300 hover:text-white hover:bg-slate-800 transition-colors"
+          className="whitespace-nowrap px-3.5 py-2 min-h-[40px] rounded-xl text-xs font-semibold bg-slate-900 border border-slate-800 text-slate-300 hover:text-white hover:bg-slate-800 transition-colors shrink-0"
         >
           Today vs Yesterday
         </button>
         <button
           onClick={() => applyPreset('yesterday_vs_day_before')}
-          className="px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-900 border border-slate-800 text-slate-300 hover:text-white hover:bg-slate-800 transition-colors"
+          className="whitespace-nowrap px-3.5 py-2 min-h-[40px] rounded-xl text-xs font-semibold bg-slate-900 border border-slate-800 text-slate-300 hover:text-white hover:bg-slate-800 transition-colors shrink-0"
         >
           Yesterday vs Day Before
         </button>
         <button
           onClick={() => applyPreset('week1_vs_week2')}
-          className="px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-900 border border-slate-800 text-slate-300 hover:text-white hover:bg-slate-800 transition-colors"
+          className="whitespace-nowrap px-3.5 py-2 min-h-[40px] rounded-xl text-xs font-semibold bg-slate-900 border border-slate-800 text-slate-300 hover:text-white hover:bg-slate-800 transition-colors shrink-0"
         >
           Week 1 vs Week 2
         </button>
         <button
           onClick={() => applyPreset('oct_vs_nov')}
-          className="px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-900 border border-slate-800 text-slate-300 hover:text-white hover:bg-slate-800 transition-colors"
+          className="whitespace-nowrap px-3.5 py-2 min-h-[40px] rounded-xl text-xs font-semibold bg-slate-900 border border-slate-800 text-slate-300 hover:text-white hover:bg-slate-800 transition-colors shrink-0"
         >
           October vs November
         </button>
         <button
           onClick={() => applyPreset('oct_vs_dec')}
-          className="px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-900 border border-slate-800 text-slate-300 hover:text-white hover:bg-slate-800 transition-colors"
+          className="whitespace-nowrap px-3.5 py-2 min-h-[40px] rounded-xl text-xs font-semibold bg-slate-900 border border-slate-800 text-slate-300 hover:text-white hover:bg-slate-800 transition-colors shrink-0"
         >
           October vs December
         </button>

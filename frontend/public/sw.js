@@ -3,6 +3,8 @@ const STATIC_ASSETS = [
   '/',
   '/index.html',
   '/manifest.webmanifest',
+  '/icon-192.png',
+  '/icon-512.png',
 ];
 
 self.addEventListener('install', (event) => {
@@ -38,3 +40,20 @@ self.addEventListener('fetch', (event) => {
     fetch(event.request).catch(() => caches.match(event.request))
   );
 });
+
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close();
+  event.waitUntil(
+    clients.matchAll({ type: 'window', includeUncontrolled: true }).then((clientList) => {
+      for (const client of clientList) {
+        if ('focus' in client) {
+          return client.focus();
+        }
+      }
+      if (clients.openWindow) {
+        return clients.openWindow('/');
+      }
+    })
+  );
+});
+

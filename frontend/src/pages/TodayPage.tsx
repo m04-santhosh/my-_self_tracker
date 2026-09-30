@@ -270,46 +270,47 @@ export const TodayPage: React.FC<TodayPageProps> = ({
   const dayInfo = dayData?.day_info;
 
   return (
-    <div className="flex-1 overflow-y-auto px-4 py-6 md:px-8 max-w-5xl mx-auto space-y-6 pb-24 md:pb-12">
-      {/* 1. Header & Greeting */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-slate-800/80">
+    <div className="flex-1 overflow-y-auto px-4 py-4 md:py-6 md:px-8 max-w-5xl mx-auto space-y-4 md:space-y-6 pb-28 md:pb-12 w-full max-w-full overflow-x-hidden">
+      {/* 1. Mobile-First Header & Greeting */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-800/80">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <span className="px-2 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+            <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
               {dayInfo?.state === 'active'
                 ? `DAY ${dayInfo.day_number} / ${dayInfo.total_days}`
                 : dayInfo?.state === 'before'
                 ? `Starts in ${dayInfo.days_until_start} days`
                 : 'Challenge Finished'}
             </span>
-            <span className="text-xs text-slate-400">
+            <span className="text-xs font-medium text-slate-400">
               {formatDateDisplay(todayStr)}
             </span>
           </div>
-          <h1 className="text-2xl md:text-3xl font-extrabold text-white tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
             {getGreeting(settings?.user_name || 'Santhosh')}
           </h1>
+          <p className="text-xs text-slate-400 mt-0.5">Let's execute today.</p>
         </div>
 
-        {/* Progress Ring & Stats */}
-        <div className="flex items-center gap-5 bg-slate-900/60 border border-slate-800/80 rounded-2xl p-4 shrink-0 shadow-sm backdrop-blur-sm">
+        {/* Progress Ring & Stats (Compact Card) */}
+        <div className="flex items-center gap-4 bg-slate-900/70 border border-slate-800/90 rounded-2xl p-3.5 sm:p-4 shrink-0 shadow-sm backdrop-blur-sm">
           <ProgressRing
             percent={dayData?.is_closed ? dayData.score : dayData?.live_progress ?? null}
-            subtitle={dayData?.is_closed ? 'Score' : 'Live'}
-            size={90}
-            strokeWidth={8}
+            subtitle={dayData?.is_closed ? 'Score' : 'Done'}
+            size={68}
+            strokeWidth={7}
           />
           <div className="flex flex-col gap-1 text-xs text-slate-300">
             <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
-              <span>{dayData?.counts.completed || 0} completed</span>
+              <span className="w-2 h-2 rounded-full bg-emerald-400 shrink-0"></span>
+              <span className="font-semibold text-white">{dayData?.counts.completed || 0} completed</span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-amber-400"></span>
+              <span className="w-2 h-2 rounded-full bg-amber-400 shrink-0"></span>
               <span>{dayData?.counts.partial || 0} partial</span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-slate-500"></span>
+              <span className="w-2 h-2 rounded-full bg-slate-500 shrink-0"></span>
               <span>{dayData?.counts.pending || 0} pending</span>
             </div>
             {dayData && dayData.counts.skipped > 0 && (
@@ -333,16 +334,16 @@ export const TodayPage: React.FC<TodayPageProps> = ({
               </p>
             </div>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 w-full md:w-auto">
             <button
               onClick={() => handleResolvePending(unloggedPastDays[0].date, 'skipped')}
-              className="px-3 py-1.5 rounded-xl text-xs font-semibold bg-amber-500/20 hover:bg-amber-500/30 text-amber-200 border border-amber-500/30 transition-colors"
+              className="flex-1 md:flex-initial h-10 px-3 rounded-xl text-xs font-semibold bg-amber-500/20 hover:bg-amber-500/30 text-amber-200 border border-amber-500/30 transition-colors"
             >
-              Skip rest of {unloggedPastDays[0].date.slice(5)}
+              Skip rest
             </button>
             <button
               onClick={() => handleResolvePending(unloggedPastDays[0].date, 'missed')}
-              className="px-3 py-1.5 rounded-xl text-xs font-semibold bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/30 transition-colors"
+              className="flex-1 md:flex-initial h-10 px-3 rounded-xl text-xs font-semibold bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/30 transition-colors"
             >
               Mark missed
             </button>
@@ -352,7 +353,7 @@ export const TodayPage: React.FC<TodayPageProps> = ({
 
       {/* 3. Overdue Banner (for today's past pending items) */}
       {overdue.length > 0 && (
-        <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 text-slate-300 flex items-center justify-between">
+        <div className="p-3.5 rounded-2xl bg-slate-900 border border-slate-800 text-slate-300 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Clock className="w-4 h-4 text-amber-400" />
             <span className="text-xs font-medium">
@@ -370,72 +371,111 @@ export const TodayPage: React.FC<TodayPageProps> = ({
 
       {/* 4. Current & Up Next Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {/* CURRENT CARD */}
-        <div className="p-5 rounded-2xl bg-gradient-to-br from-slate-900 to-slate-900/80 border border-slate-800 shadow-md flex flex-col justify-between min-h-[170px]">
+        {/* CURRENT ACTIVITY (HERO CARD - HIGHEST VISUAL PRIORITY) */}
+        <div className="p-5 rounded-3xl bg-gradient-to-b from-slate-900 via-slate-900/95 to-slate-950 border-2 border-emerald-500/40 shadow-xl shadow-emerald-950/20 flex flex-col justify-between min-h-[220px]">
           <div>
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-[11px] font-bold tracking-wider text-emerald-400 uppercase flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+            <div className="flex items-center justify-between mb-2.5">
+              <span className="text-[11px] font-bold tracking-wider text-emerald-400 uppercase flex items-center gap-2">
+                <span className="relative flex h-2.5 w-2.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+                </span>
                 Current Activity
               </span>
-              {current && <CategoryBadge category={current.category} size="sm" />}
+              {current && <CategoryBadge category={current.category} size="md" />}
             </div>
 
             {current ? (
               <>
-                <h3 className="text-lg font-bold text-white mb-1">{current.title}</h3>
-                <p className="text-xs text-slate-400 font-mono">
-                  {formatTimeDisplay(current.planned_start)} – {formatTimeDisplay(current.planned_end)}
-                </p>
+                <h3 className="text-xl sm:text-2xl font-black text-white mb-1 tracking-tight">
+                  {current.title}
+                </h3>
+                <div className="flex items-center gap-2 text-xs font-mono text-slate-300 mb-2">
+                  <Clock className="w-3.5 h-3.5 text-emerald-400" />
+                  <span>
+                    {formatTimeDisplay(current.planned_start)}
+                    {current.planned_end ? ` – ${formatTimeDisplay(current.planned_end)}` : ''}
+                  </span>
+                  {current.metric_name && (
+                    <span className="px-2 py-0.5 rounded-full bg-slate-800 text-emerald-300 text-[11px]">
+                      {current.metric_name}
+                    </span>
+                  )}
+                </div>
                 {current.description && (
-                  <p className="text-xs text-slate-400 mt-1 line-clamp-1">{current.description}</p>
+                  <p className="text-xs text-slate-400 mb-3 line-clamp-2 leading-relaxed">
+                    {current.description}
+                  </p>
                 )}
               </>
             ) : (
-              <div className="py-4">
-                <p className="text-base font-semibold text-slate-300">Nothing right now</p>
-                <p className="text-xs text-slate-400 mt-0.5">Enjoy your free space or prepare for what's next.</p>
+              <div className="py-6 text-center">
+                <p className="text-base font-bold text-slate-200">Nothing planned right now</p>
+                <p className="text-xs text-slate-400 mt-1">Enjoy your free space or check Up Next below.</p>
               </div>
             )}
           </div>
 
           {current && (
-            <div className="pt-4 border-t border-slate-800/80 flex items-center justify-between gap-2">
-              {/* Quick status buttons */}
-              <div className="flex items-center gap-1.5">
+            <div className="pt-4 border-t border-slate-800/80 space-y-2.5">
+              {/* Primary 3 Large Status Action Buttons (DONE, PARTIAL, MISSED - thumb-friendly >=48px) */}
+              <div className="grid grid-cols-3 gap-2">
                 <button
+                  type="button"
                   onClick={() => handleQuickLog(current.id, { status: 'completed' })}
-                  className="px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 hover:bg-emerald-500/30 transition-colors flex items-center gap-1"
+                  className="h-12 min-h-[48px] rounded-2xl text-xs sm:text-sm font-bold bg-emerald-500 hover:bg-emerald-600 text-white shadow-md shadow-emerald-500/25 active:scale-95 transition-all flex items-center justify-center gap-1.5"
                 >
-                  <Check className="w-3.5 h-3.5" />
-                  <span>Done</span>
+                  <Check className="w-4 h-4 stroke-[3]" />
+                  <span>DONE</span>
                 </button>
                 <button
-                  onClick={() => setActiveLogInstance(current)}
-                  className="px-2.5 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-200 hover:bg-slate-800 transition-colors"
+                  type="button"
+                  onClick={() => handleQuickLog(current.id, { status: 'partial' })}
+                  className="h-12 min-h-[48px] rounded-2xl text-xs sm:text-sm font-bold bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/30 active:scale-95 transition-all flex items-center justify-center gap-1.5"
                 >
-                  Log...
+                  <Clock className="w-4 h-4" />
+                  <span>PARTIAL</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleQuickLog(current.id, { status: 'missed' })}
+                  className="h-12 min-h-[48px] rounded-2xl text-xs sm:text-sm font-bold bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/30 active:scale-95 transition-all flex items-center justify-center gap-1.5"
+                >
+                  <AlertCircle className="w-4 h-4" />
+                  <span>MISSED</span>
                 </button>
               </div>
 
-              {/* Start / Finish Timer */}
-              {timerInstanceId === current.id ? (
+              {/* Secondary Controls: Timer & Detailed Metric Log */}
+              <div className="flex items-center gap-2">
+                {timerInstanceId === current.id ? (
+                  <button
+                    type="button"
+                    onClick={() => handleFinishTimer(current)}
+                    className="flex-1 h-11 min-h-[44px] rounded-xl text-xs font-bold bg-rose-500 text-white hover:bg-rose-600 transition-all flex items-center justify-center gap-2 animate-pulse shadow-md shadow-rose-500/25"
+                  >
+                    <Square className="w-4 h-4" />
+                    <span>FINISH TIMER ({timerStartTime})</span>
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => handleStartTimer(current)}
+                    className="flex-1 h-11 min-h-[44px] rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 transition-all flex items-center justify-center gap-2 border border-slate-700/60 active:scale-95"
+                  >
+                    <Play className="w-3.5 h-3.5 text-emerald-400" />
+                    <span>Start Timer</span>
+                  </button>
+                )}
+
                 <button
-                  onClick={() => handleFinishTimer(current)}
-                  className="px-3 py-1.5 rounded-lg text-xs font-semibold bg-rose-500 text-white hover:bg-rose-600 transition-colors flex items-center gap-1.5 animate-pulse"
+                  type="button"
+                  onClick={() => setActiveLogInstance(current)}
+                  className="h-11 min-h-[44px] px-4 rounded-xl text-xs font-medium text-slate-400 hover:text-slate-200 hover:bg-slate-800 transition-all border border-slate-800 active:scale-95"
                 >
-                  <Square className="w-3.5 h-3.5" />
-                  <span>Finish ({timerStartTime})</span>
+                  More...
                 </button>
-              ) : (
-                <button
-                  onClick={() => handleStartTimer(current)}
-                  className="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-200 hover:bg-slate-700 transition-colors flex items-center gap-1.5"
-                >
-                  <Play className="w-3.5 h-3.5 text-emerald-400" />
-                  <span>Start timer</span>
-                </button>
-              )}
+              </div>
             </div>
           )}
         </div>
@@ -621,7 +661,7 @@ export const TodayPage: React.FC<TodayPageProps> = ({
                         </span>
                       )}
                     </div>
-                    <div className="flex items-center gap-2 mt-0.5 text-xs text-slate-400">
+                    <div className="flex flex-wrap items-center gap-1.5 mt-0.5 text-xs text-slate-400">
                       <span className="font-mono">{formatTimeDisplay(inst.planned_start)}</span>
                       {inst.planned_end && (
                         <span className="font-mono">– {formatTimeDisplay(inst.planned_end)}</span>
@@ -725,16 +765,16 @@ export const TodayPage: React.FC<TodayPageProps> = ({
             <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6">
               <div className="flex items-center gap-2">
                 <span className="text-xs text-slate-400">Day Rating:</span>
-                <div className="flex items-center gap-1.5">
+                <div className="flex items-center gap-2">
                   {[1, 2, 3, 4, 5].map((s) => (
                     <button
                       key={s}
                       type="button"
                       onClick={() => setDayRating(dayRating === s ? null : s)}
-                      className={`min-w-[34px] h-8 rounded-lg text-xs font-bold transition-all ${
+                      className={`min-w-[44px] h-11 rounded-xl text-sm font-bold transition-all ${
                         dayRating === s
-                          ? 'bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20'
-                          : 'bg-slate-800 text-slate-300 hover:bg-slate-700 active:scale-95'
+                          ? 'bg-amber-500 text-slate-950 shadow-md shadow-amber-500/25 ring-2 ring-amber-400/50'
+                          : 'bg-slate-800 text-slate-200 hover:bg-slate-700 active:scale-95'
                       }`}
                     >
                       {s}★
@@ -743,27 +783,27 @@ export const TodayPage: React.FC<TodayPageProps> = ({
                 </div>
               </div>
 
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2.5 py-1">
                 <input
                   type="checkbox"
                   id="rest-day-toggle"
                   checked={isRestDay}
                   onChange={(e) => setIsRestDay(e.target.checked)}
-                  className="w-4 h-4 rounded bg-slate-950 border-slate-800 text-purple-500 focus:ring-0"
+                  className="w-5 h-5 rounded-lg bg-slate-950 border-slate-800 text-purple-500 focus:ring-0"
                 />
-                <label htmlFor="rest-day-toggle" className="text-xs text-slate-300 cursor-pointer select-none">
+                <label htmlFor="rest-day-toggle" className="text-xs font-medium text-slate-300 cursor-pointer select-none">
                   Rest day (excluded from score)
                 </label>
               </div>
             </div>
 
             {/* Action buttons */}
-            <div className="flex items-center gap-2 w-full sm:w-auto">
+            <div className="flex items-center gap-2.5 w-full sm:w-auto">
               <button
                 type="button"
                 disabled={reviewSaving}
                 onClick={() => handleSaveReview(false)}
-                className="flex-1 sm:flex-initial px-4 py-2.5 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 transition-colors text-center"
+                className="flex-1 sm:flex-initial h-12 min-h-[48px] px-5 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 transition-all text-center active:scale-95"
               >
                 Save Draft
               </button>
@@ -771,7 +811,7 @@ export const TodayPage: React.FC<TodayPageProps> = ({
                 type="button"
                 disabled={reviewSaving}
                 onClick={() => handleSaveReview(true)}
-                className="flex-1 sm:flex-initial px-5 py-2.5 rounded-xl text-xs font-bold bg-emerald-500 hover:bg-emerald-600 text-white shadow-md shadow-emerald-500/20 transition-all text-center"
+                className="flex-1 sm:flex-initial h-12 min-h-[48px] px-6 rounded-xl text-sm font-bold bg-emerald-500 hover:bg-emerald-600 text-white shadow-md shadow-emerald-500/25 transition-all text-center active:scale-95"
               >
                 {dayData?.review?.closed_at ? 'Update & Close' : 'Close Day'}
               </button>

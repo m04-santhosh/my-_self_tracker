@@ -48,10 +48,10 @@ export function App() {
 
   return (
     <BrowserRouter>
-      <div className="flex h-screen bg-[#0b0f17] text-slate-100 overflow-hidden font-sans antialiased">
+      <div className="flex h-[100dvh] w-full max-w-full bg-[#0b0f17] text-slate-100 overflow-hidden font-sans antialiased">
         <Navigation isBackendOffline={isBackendOffline} />
 
-        <main className="flex-1 flex flex-col min-w-0 overflow-hidden relative">
+        <main className="flex-1 flex flex-col min-w-0 w-full max-w-full overflow-hidden relative">
           {/* Missed reminders banner if returning after tab sleep */}
           {missedBanner && (
             <div className="bg-amber-500/10 border-b border-amber-500/20 px-4 py-2.5 text-amber-200 text-xs flex items-center justify-between z-30">

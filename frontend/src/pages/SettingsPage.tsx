@@ -90,7 +90,7 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
   };
 
   return (
-    <div className="flex-1 overflow-y-auto px-4 py-6 md:px-8 max-w-4xl mx-auto space-y-6 pb-24 md:pb-12">
+    <div className="flex-1 overflow-y-auto px-4 py-4 md:py-6 md:px-8 max-w-4xl mx-auto space-y-4 md:space-y-6 pb-28 md:pb-12 w-full max-w-full overflow-x-hidden">
       <div>
         <h1 className="text-2xl font-extrabold text-white tracking-tight">Settings & Preferences</h1>
         <p className="text-xs text-slate-400 mt-0.5">

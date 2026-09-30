@@ -118,22 +118,46 @@ export function useNotifications(
           document.title = 'LifeOS 90';
         }, 12000);
 
-        // Browser notification if permission granted
+        // Browser / PWA notification if permission granted (iOS WebKit + desktop safe)
         if (typeof Notification !== 'undefined' && Notification.permission === 'granted') {
-          try {
-            const notif = new Notification(title, {
-              body,
-              icon: '/favicon.ico',
-              tag: 'lifeos-activity-reminder', // Replaces rather than stacks
-            });
-            notif.onclick = () => {
-              window.focus();
-              if (onOpenQuickLog) {
-                onOpenQuickLog(firstInstanceId);
-              }
-            };
-          } catch {
-            // Notification error
+          const notifOptions: NotificationOptions = {
+            body,
+            icon: '/icon-192.png',
+            badge: '/icon-192.png',
+            tag: 'lifeos-activity-reminder', // Replaces rather than stacks
+            data: { instanceId: firstInstanceId },
+          };
+
+          if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.ready
+              .then((registration) => {
+                return registration.showNotification(title, notifOptions);
+              })
+              .catch(() => {
+                try {
+                  const fallbackNotif = new Notification(title, notifOptions);
+                  fallbackNotif.onclick = () => {
+                    window.focus();
+                    if (onOpenQuickLog) {
+                      onOpenQuickLog(firstInstanceId);
+                    }
+                  };
+                } catch {
+                  // In iOS WebKit, new Notification constructor throws; gracefully caught
+                }
+              });
+          } else {
+            try {
+              const fallbackNotif = new Notification(title, notifOptions);
+              fallbackNotif.onclick = () => {
+                window.focus();
+                if (onOpenQuickLog) {
+                  onOpenQuickLog(firstInstanceId);
+                }
+              };
+            } catch {
+              // Gracefully caught
+            }
           }
         }
       }

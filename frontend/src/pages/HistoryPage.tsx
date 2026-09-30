@@ -129,11 +129,11 @@ export const HistoryPage: React.FC = () => {
   };
 
   return (
-    <div className="flex-1 overflow-y-auto px-4 py-6 md:px-8 max-w-5xl mx-auto space-y-6 pb-24 md:pb-12">
+    <div className="flex-1 overflow-y-auto px-4 py-4 md:py-6 md:px-8 max-w-5xl mx-auto space-y-4 md:space-y-6 pb-28 md:pb-12 w-full max-w-full overflow-x-hidden">
       {/* Top Header & Day Navigation */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-800">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-800">
         <div>
-          <h1 className="text-2xl font-extrabold text-white tracking-tight">History & Logs</h1>
+          <h1 className="text-xl sm:text-2xl font-black text-white tracking-tight">History & Logs</h1>
           <p className="text-xs text-slate-400 mt-0.5">
             Review past days, edit activity logs, and inspect daily ratings.
           </p>
@@ -143,7 +143,7 @@ export const HistoryPage: React.FC = () => {
         <div className="flex items-center justify-between sm:justify-start gap-2 w-full sm:w-auto">
           <button
             onClick={handlePrevDay}
-            className="p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-400 hover:text-slate-200 transition-colors shrink-0"
+            className="w-10 h-10 rounded-xl bg-slate-900 border border-slate-800 text-slate-400 hover:text-slate-200 transition-colors shrink-0 flex items-center justify-center active:scale-95"
             title="Previous Day"
           >
             <ChevronLeft className="w-4 h-4" />
@@ -153,12 +153,12 @@ export const HistoryPage: React.FC = () => {
             type="date"
             value={selectedDate}
             onChange={(e) => handleDateChange(e.target.value)}
-            className="flex-1 sm:flex-initial bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-xs font-mono text-white focus:outline-none focus:border-slate-600 text-center"
+            className="flex-1 sm:flex-initial h-10 bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-xs font-mono text-white focus:outline-none focus:border-slate-600 text-center"
           />
 
           <button
             onClick={handleNextDay}
-            className="p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-400 hover:text-slate-200 transition-colors shrink-0"
+            className="w-10 h-10 rounded-xl bg-slate-900 border border-slate-800 text-slate-400 hover:text-slate-200 transition-colors shrink-0 flex items-center justify-center active:scale-95"
             title="Next Day"
           >
             <ChevronRight className="w-4 h-4" />
@@ -167,15 +167,15 @@ export const HistoryPage: React.FC = () => {
       </div>
 
       {/* Month Calendar Mini-Heatmap */}
-      <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-4">
-        <div className="flex items-center justify-between mb-3 text-xs">
-          <span className="font-semibold text-slate-300">
+      <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-3 sm:p-4">
+        <div className="flex items-center justify-between mb-2.5 text-xs">
+          <span className="font-bold text-slate-200 text-xs sm:text-sm">
             Month Overview ({selectedDate.slice(0, 7)})
           </span>
-          <span className="text-slate-400 text-[11px]">Neutral color scale • Click any day</span>
+          <span className="text-slate-400 text-[10px] sm:text-[11px]">Click any day to inspect</span>
         </div>
 
-        <div className="grid grid-cols-7 sm:grid-cols-10 md:grid-cols-16 gap-1.5">
+        <div className="grid grid-cols-7 sm:grid-cols-10 md:grid-cols-16 gap-1 sm:gap-1.5">
           {monthSummaries.map((s) => {
             const isSelected = s.date === selectedDate;
             const hasScore = s.score !== null;
@@ -185,23 +185,23 @@ export const HistoryPage: React.FC = () => {
               <button
                 key={s.date}
                 onClick={() => handleDateChange(s.date)}
-                className={`p-1.5 rounded-xl border text-center transition-all ${
+                className={`p-1 sm:p-1.5 rounded-xl border text-center transition-all min-h-[44px] flex flex-col justify-center items-center ${
                   isSelected
-                    ? 'ring-2 ring-emerald-400 border-transparent bg-slate-800'
-                    : 'bg-slate-950/70 border-slate-800/80 hover:bg-slate-800'
+                    ? 'ring-2 ring-emerald-400 border-transparent bg-slate-800 shadow-md shadow-emerald-500/10'
+                    : 'bg-slate-950/70 border-slate-800/80 hover:bg-slate-800 active:scale-95'
                 }`}
               >
-                <span className="text-[10px] text-slate-400 block font-mono">
+                <span className="text-[10px] text-slate-400 block font-mono leading-none mb-0.5">
                   {parseInt(s.date.slice(8), 10)}
                 </span>
-                <span className={`text-xs font-bold font-mono ${
+                <span className={`text-[10px] sm:text-xs font-bold font-mono leading-none ${
                   isRest
                     ? 'text-purple-400'
                     : hasScore
                     ? s.score! >= 70
                       ? 'text-emerald-400'
                       : 'text-slate-300'
-                    : 'text-slate-400'
+                    : 'text-slate-500'
                 }`}>
                   {isRest ? 'REST' : hasScore ? `${s.score}%` : '--'}
                 </span>

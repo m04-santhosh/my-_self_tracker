@@ -158,11 +158,11 @@ export const GoalsPage: React.FC = () => {
   };
 
   return (
-    <div className="flex-1 overflow-y-auto px-4 py-6 md:px-8 max-w-5xl mx-auto space-y-6 pb-24 md:pb-12">
+    <div className="flex-1 overflow-y-auto px-4 py-4 md:py-6 md:px-8 max-w-5xl mx-auto space-y-4 md:space-y-6 pb-28 md:pb-12 w-full max-w-full overflow-x-hidden">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-800">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-800">
         <div>
-          <h1 className="text-2xl font-extrabold text-white tracking-tight">Goals & Milestones</h1>
+          <h1 className="text-xl sm:text-2xl font-black text-white tracking-tight">Goals & Milestones</h1>
           <p className="text-xs text-slate-400 mt-0.5">
             Computed progress connected directly to your logged activities and finances.
           </p>
@@ -170,7 +170,7 @@ export const GoalsPage: React.FC = () => {
 
         <button
           onClick={handleOpenCreate}
-          className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold bg-emerald-500 hover:bg-emerald-600 text-white shadow-md shadow-emerald-500/20 transition-all self-start sm:self-auto"
+          className="flex items-center justify-center gap-1.5 px-4 h-10 rounded-xl text-xs font-semibold bg-emerald-500 hover:bg-emerald-600 text-white shadow-md shadow-emerald-500/20 active:scale-95 transition-all self-start sm:self-auto"
         >
           <Plus className="w-4 h-4" />
           <span>New Goal</span>
@@ -267,6 +267,7 @@ export const GoalsPage: React.FC = () => {
                       <div className="grid grid-cols-2 gap-2">
                         <input
                           type="number"
+                          inputMode="decimal"
                           step="any"
                           required
                           placeholder="Value"
