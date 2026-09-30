@@ -407,58 +407,117 @@ export const SchedulePage: React.FC = () => {
 
       {/* Week Grid View */}
       {!loading && viewMode === 'week' && (
-        <div className="grid grid-cols-1 md:grid-cols-7 gap-3">
-          {DAYS_NAMES.map((dayName, dayIdx) => {
-            const dayTemplates = templates.filter(
-              (t) => !t.is_archived && t.days_of_week.split(',').map(Number).includes(dayIdx)
-            ).sort((a, b) => timeToMinutes(a.start_time) - timeToMinutes(b.start_time));
+        <div>
+          {/* Mobile Day Selector (Horizontal Pill Bar) */}
+          <div className="md:hidden flex items-center gap-1.5 overflow-x-auto pb-3 mb-2 no-scrollbar">
+            {DAYS_NAMES.map((dayName, dayIdx) => {
+              const count = templates.filter(
+                (t) => !t.is_archived && t.days_of_week.split(',').map(Number).includes(dayIdx)
+              ).length;
+              const isSelected = (selectedDays[0] ?? 0) === dayIdx;
 
-            return (
-              <div key={dayName} className="bg-slate-900/50 border border-slate-800 rounded-2xl p-3 flex flex-col gap-2">
-                <div className="pb-2 border-b border-slate-800 text-center">
-                  <span className="text-xs font-bold uppercase tracking-wider text-slate-300">
-                    {dayName}
-                  </span>
-                  <span className="text-[10px] text-slate-400 block">
-                    {dayTemplates.length} items
-                  </span>
-                </div>
+              return (
+                <button
+                  key={dayName}
+                  onClick={() => setSelectedDays([dayIdx])}
+                  className={`flex-1 min-w-[50px] py-2 px-1 rounded-xl text-center border transition-all ${
+                    isSelected
+                      ? 'bg-emerald-500 text-white border-emerald-400 shadow-md shadow-emerald-500/20'
+                      : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-slate-200'
+                  }`}
+                >
+                  <span className="text-[11px] font-bold block">{dayName}</span>
+                  <span className="text-[10px] opacity-80 block">{count}</span>
+                </button>
+              );
+            })}
+          </div>
 
-                <div className="space-y-1.5 flex-1">
-                  {dayTemplates.map((t) => (
-                    <div
-                      key={t.id}
-                      onClick={() => handleOpenEdit(t)}
-                      className={`p-2 rounded-xl border text-xs cursor-pointer transition-colors ${
-                        t.is_paused
-                          ? 'bg-slate-950/40 border-slate-800/40 opacity-50'
-                          : 'bg-slate-950 border-slate-800/80 hover:border-slate-700'
-                      }`}
-                    >
-                      <div className="flex items-center justify-between mb-0.5">
-                        <span className="font-semibold text-slate-200 truncate">{t.title}</span>
-                        <CategoryBadge category={t.category} size="sm" />
-                      </div>
-                      <span className="text-[10px] font-mono text-slate-400">
-                        {t.start_time}
-                      </span>
+          {/* Mobile Selected Day Activities Card */}
+          <div className="md:hidden space-y-2">
+            {templates
+              .filter((t) => !t.is_archived && t.days_of_week.split(',').map(Number).includes(selectedDays[0] ?? 0))
+              .sort((a, b) => timeToMinutes(a.start_time) - timeToMinutes(b.start_time))
+              .map((t) => (
+                <div
+                  key={t.id}
+                  onClick={() => handleOpenEdit(t)}
+                  className="p-3.5 rounded-2xl bg-slate-900/80 border border-slate-800 flex items-center justify-between"
+                >
+                  <div>
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="text-sm font-bold text-white">{t.title}</span>
+                      <CategoryBadge category={t.category} size="sm" />
                     </div>
-                  ))}
-                  {dayTemplates.length === 0 && (
-                    <div className="py-6 text-center text-[11px] text-slate-400">Empty</div>
-                  )}
+                    <span className="text-xs font-mono text-slate-400">
+                      {formatTimeDisplay(t.start_time)}
+                      {t.end_time ? ` – ${formatTimeDisplay(t.end_time)}` : ''}
+                    </span>
+                  </div>
+                  <span className="text-xs text-emerald-400 font-semibold">Edit</span>
                 </div>
-              </div>
-            );
-          })}
+              ))}
+          </div>
+
+          {/* Desktop 7-Column Grid */}
+          <div className="hidden md:grid md:grid-cols-7 gap-3">
+            {DAYS_NAMES.map((dayName, dayIdx) => {
+              const dayTemplates = templates.filter(
+                (t) => !t.is_archived && t.days_of_week.split(',').map(Number).includes(dayIdx)
+              ).sort((a, b) => timeToMinutes(a.start_time) - timeToMinutes(b.start_time));
+
+              return (
+                <div key={dayName} className="bg-slate-900/50 border border-slate-800 rounded-2xl p-3 flex flex-col gap-2">
+                  <div className="pb-2 border-b border-slate-800 text-center">
+                    <span className="text-xs font-bold uppercase tracking-wider text-slate-300">
+                      {dayName}
+                    </span>
+                    <span className="text-[10px] text-slate-400 block">
+                      {dayTemplates.length} items
+                    </span>
+                  </div>
+
+                  <div className="space-y-1.5 flex-1">
+                    {dayTemplates.map((t) => (
+                      <div
+                        key={t.id}
+                        onClick={() => handleOpenEdit(t)}
+                        className={`p-2 rounded-xl border text-xs cursor-pointer transition-colors ${
+                          t.is_paused
+                            ? 'bg-slate-950/40 border-slate-800/40 opacity-50'
+                            : 'bg-slate-950 border-slate-800/80 hover:border-slate-700'
+                        }`}
+                      >
+                        <div className="flex items-center justify-between mb-0.5">
+                          <span className="font-semibold text-slate-200 truncate">{t.title}</span>
+                          <CategoryBadge category={t.category} size="sm" />
+                        </div>
+                        <span className="text-[10px] font-mono text-slate-400">
+                          {t.start_time}
+                        </span>
+                      </div>
+                    ))}
+                    {dayTemplates.length === 0 && (
+                      <div className="py-6 text-center text-[11px] text-slate-400">Empty</div>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </div>
       )}
 
-      {/* Create / Edit Template Modal */}
+      {/* Create / Edit Template Modal (Bottom-Sheet on Mobile) */}
       {modalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto shadow-2xl p-6">
-            <h2 className="text-lg font-bold text-white mb-1">
+        <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-end sm:items-center justify-center sm:p-4">
+          <div className="bg-slate-900 border-t sm:border border-slate-800 rounded-t-3xl sm:rounded-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto shadow-2xl p-5 sm:p-6 pb-safe sm:pb-6 animate-in slide-in-from-bottom duration-200">
+            {/* Mobile Drag Handle */}
+            <div className="sm:hidden flex justify-center pb-3">
+              <div className="w-12 h-1.5 rounded-full bg-slate-700"></div>
+            </div>
+
+            <h2 className="text-base sm:text-lg font-bold text-white mb-1">
               {editingTemplate ? 'Edit Template' : 'New Schedule Template'}
             </h2>
             <p className="text-xs text-slate-400 mb-4">

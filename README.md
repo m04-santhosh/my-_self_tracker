@@ -173,13 +173,34 @@ LifeOS-90/
 │   │   └── routers/ (templates, instances, days, goals, finance, analytics, compare, settings, notifications, system)
 │   ├── tests/ (conftest, test_scheduler, test_scoring, test_api_milestone1, test_milestone2)
 │   └── scripts/ (smoke_test.py)
-└── frontend/
-    ├── package.json, vite.config.ts, tailwind.config.js
-    ├── public/ (manifest.webmanifest, sw.js)
-    └── src/
-        ├── components/ (Navigation, ProgressRing, CategoryBadge, QuickLogModal, OneOffTaskModal)
-        ├── pages/ (TodayPage, SchedulePage, HistoryPage, GoalsPage, FinancePage, ComparePage, AnalyticsPage, SettingsPage)
-        ├── hooks/ (useNotifications)
-        ├── services/ (api client)
-        └── utils/ (dates, activityLogic)
 ```
+
+---
+
+## 7. Mobile Experience & Phone Access
+
+LifeOS 90 is designed for a phone-first daily workflow so you can carry it in your pocket throughout the 90 days.
+
+### Mobile Features
+1. **Ergonomic Bottom Navigation**:
+   - Fixed bottom tab bar with thumb-accessible primary actions: Today, Schedule, History, Finance, and "More".
+   - Slide-up navigation drawer for Goals, Compare, Analytics, and Settings.
+2. **Native-Like Bottom Sheets**:
+   - Quick Log, One-Off Tasks, Schedule Templates, and Goals open as slide-up bottom sheets with touch drag handles rather than desktop-centered popups.
+   - Large, thumb-friendly touch targets (min 44px) for Done, Partial, Missed, and Skip statuses.
+3. **Optimized Form Controls**:
+   - Amount and metric number fields use `inputMode="decimal"` to invoke the numeric keypad automatically on iOS and Android.
+   - Schedule page features a horizontal scrollable day-pill selector (`Mon` to `Sun`) on phone viewports instead of squishing a 7-column table.
+4. **Touch & Inset Polish**:
+   - Full support for notch and home bar safe areas (`pb-safe`, `pt-safe`).
+   - Double-tap zoom delay disabled via `touch-action: manipulation` for instant responsive button taps.
+
+### How to Open on Your Mobile Phone
+1. Connect your phone and PC to the same Wi-Fi network.
+2. Run `start.bat` (Windows) or `./start.sh` (Mac/Linux). Both uvicorn and Vite bind to `0.0.0.0`.
+3. Note your PC's local IP address (e.g., `192.168.1.X` displayed by Vite or via `ipconfig` / `ifconfig`).
+4. On your mobile browser (Safari, Chrome, etc.), visit:
+   ```
+   http://192.168.1.X:5173
+   ```
+5. *(Optional)* Tap **Share / Options -> Add to Home Screen** on your phone to run LifeOS 90 like a standalone native app!

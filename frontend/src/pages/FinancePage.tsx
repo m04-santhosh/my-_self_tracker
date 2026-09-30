@@ -249,6 +249,7 @@ export const FinancePage: React.FC = () => {
                     <label className="block text-xs text-slate-400 mb-1">Amount (Rupees)</label>
                     <input
                       type="number"
+                      inputMode="decimal"
                       step="any"
                       min="1"
                       required
@@ -299,7 +300,7 @@ export const FinancePage: React.FC = () => {
                   <button
                     type="submit"
                     disabled={submitting}
-                    className="px-5 py-2 rounded-xl text-xs font-semibold bg-emerald-500 hover:bg-emerald-600 text-white shadow-md shadow-emerald-500/20 transition-all"
+                    className="w-full sm:w-auto px-5 py-2.5 rounded-xl text-xs font-semibold bg-emerald-500 hover:bg-emerald-600 text-white shadow-md shadow-emerald-500/20 transition-all text-center"
                   >
                     {submitting ? 'Recording...' : 'Add Transaction'}
                   </button>

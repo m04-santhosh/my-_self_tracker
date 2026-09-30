@@ -267,6 +267,7 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
             </label>
             <input
               type="number"
+              inputMode="decimal"
               placeholder="e.g. 50000"
               value={fiTarget}
               onChange={(e) => setFiTarget(e.target.value)}
@@ -283,7 +284,7 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
           <button
             type="submit"
             disabled={saving}
-            className="flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-bold bg-emerald-500 hover:bg-emerald-600 text-white shadow-lg shadow-emerald-500/20 transition-all"
+            className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 rounded-xl text-sm font-bold bg-emerald-500 hover:bg-emerald-600 text-white shadow-lg shadow-emerald-500/20 transition-all text-center"
           >
             <Save className="w-4 h-4" />
             <span>{saving ? 'Saving...' : 'Save Preferences'}</span>
@@ -301,11 +302,11 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
           Your life data is safely stored in local SQLite WAL mode (<code>database/lifeos.db</code>).
         </p>
 
-        <div className="flex flex-wrap items-center gap-3 pt-2">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2">
           <button
             type="button"
             onClick={handleBackup}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 transition-colors"
+            className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 transition-colors"
           >
             <Database className="w-4 h-4 text-emerald-400" />
             <span>Create DB Snapshot</span>
@@ -314,7 +315,7 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
           <button
             type="button"
             onClick={handleExport}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 transition-colors"
+            className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 transition-colors"
           >
             <Download className="w-4 h-4 text-indigo-400" />
             <span>Export All JSON Data</span>

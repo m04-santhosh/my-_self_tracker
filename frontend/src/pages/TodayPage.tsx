@@ -722,22 +722,22 @@ export const TodayPage: React.FC<TodayPageProps> = ({
 
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-3 border-t border-slate-800/80">
             {/* Rating and Rest Day */}
-            <div className="flex items-center gap-6">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6">
               <div className="flex items-center gap-2">
                 <span className="text-xs text-slate-400">Day Rating:</span>
-                <div className="flex items-center gap-1">
+                <div className="flex items-center gap-1.5">
                   {[1, 2, 3, 4, 5].map((s) => (
                     <button
                       key={s}
                       type="button"
                       onClick={() => setDayRating(dayRating === s ? null : s)}
-                      className={`text-xs px-2 py-0.5 rounded ${
+                      className={`min-w-[34px] h-8 rounded-lg text-xs font-bold transition-all ${
                         dayRating === s
-                          ? 'bg-amber-500 text-slate-950 font-bold'
-                          : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+                          ? 'bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20'
+                          : 'bg-slate-800 text-slate-300 hover:bg-slate-700 active:scale-95'
                       }`}
                     >
-                      {s}
+                      {s}★
                     </button>
                   ))}
                 </div>
@@ -749,21 +749,21 @@ export const TodayPage: React.FC<TodayPageProps> = ({
                   id="rest-day-toggle"
                   checked={isRestDay}
                   onChange={(e) => setIsRestDay(e.target.checked)}
-                  className="rounded bg-slate-950 border-slate-800 text-purple-500 focus:ring-0"
+                  className="w-4 h-4 rounded bg-slate-950 border-slate-800 text-purple-500 focus:ring-0"
                 />
-                <label htmlFor="rest-day-toggle" className="text-xs text-slate-300 cursor-pointer">
+                <label htmlFor="rest-day-toggle" className="text-xs text-slate-300 cursor-pointer select-none">
                   Rest day (excluded from score)
                 </label>
               </div>
             </div>
 
             {/* Action buttons */}
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 w-full sm:w-auto">
               <button
                 type="button"
                 disabled={reviewSaving}
                 onClick={() => handleSaveReview(false)}
-                className="px-4 py-2 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 transition-colors"
+                className="flex-1 sm:flex-initial px-4 py-2.5 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 transition-colors text-center"
               >
                 Save Draft
               </button>
@@ -771,7 +771,7 @@ export const TodayPage: React.FC<TodayPageProps> = ({
                 type="button"
                 disabled={reviewSaving}
                 onClick={() => handleSaveReview(true)}
-                className="px-5 py-2 rounded-xl text-xs font-bold bg-emerald-500 hover:bg-emerald-600 text-white shadow-md shadow-emerald-500/20 transition-all"
+                className="flex-1 sm:flex-initial px-5 py-2.5 rounded-xl text-xs font-bold bg-emerald-500 hover:bg-emerald-600 text-white shadow-md shadow-emerald-500/20 transition-all text-center"
               >
                 {dayData?.review?.closed_at ? 'Update & Close' : 'Close Day'}
               </button>

@@ -352,9 +352,14 @@ export const GoalsPage: React.FC = () => {
 
       {/* Create/Edit Goal Modal */}
       {modalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-md overflow-hidden shadow-2xl p-6">
-            <h2 className="text-lg font-bold text-white mb-3">
+        <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-end sm:items-center justify-center sm:p-4">
+          <div className="bg-slate-900 border-t sm:border border-slate-800 rounded-t-3xl sm:rounded-2xl w-full max-w-md max-h-[90vh] overflow-y-auto shadow-2xl p-5 sm:p-6 pb-safe sm:pb-6 animate-in slide-in-from-bottom duration-200">
+            {/* Mobile Drag Handle */}
+            <div className="sm:hidden flex justify-center pb-3">
+              <div className="w-12 h-1.5 rounded-full bg-slate-700"></div>
+            </div>
+
+            <h2 className="text-base sm:text-lg font-bold text-white mb-3">
               {editingGoal ? 'Edit Goal' : 'New 90-Day Goal'}
             </h2>
 
@@ -434,6 +439,7 @@ export const GoalsPage: React.FC = () => {
                   <label className="block text-xs text-slate-400 mb-1">Target Value</label>
                   <input
                     type="number"
+                    inputMode="decimal"
                     step="any"
                     required
                     min="1"

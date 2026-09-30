@@ -140,10 +140,11 @@ export const HistoryPage: React.FC = () => {
         </div>
 
         {/* Date Selector and Prev/Next */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center justify-between sm:justify-start gap-2 w-full sm:w-auto">
           <button
             onClick={handlePrevDay}
-            className="p-2 rounded-xl bg-slate-900 border border-slate-800 text-slate-400 hover:text-slate-200 transition-colors"
+            className="p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-400 hover:text-slate-200 transition-colors shrink-0"
+            title="Previous Day"
           >
             <ChevronLeft className="w-4 h-4" />
           </button>
@@ -152,12 +153,13 @@ export const HistoryPage: React.FC = () => {
             type="date"
             value={selectedDate}
             onChange={(e) => handleDateChange(e.target.value)}
-            className="bg-slate-900 border border-slate-800 rounded-xl px-3 py-1.5 text-xs font-mono text-white focus:outline-none focus:border-slate-600"
+            className="flex-1 sm:flex-initial bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-xs font-mono text-white focus:outline-none focus:border-slate-600 text-center"
           />
 
           <button
             onClick={handleNextDay}
-            className="p-2 rounded-xl bg-slate-900 border border-slate-800 text-slate-400 hover:text-slate-200 transition-colors"
+            className="p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-400 hover:text-slate-200 transition-colors shrink-0"
+            title="Next Day"
           >
             <ChevronRight className="w-4 h-4" />
           </button>
@@ -386,20 +388,20 @@ export const HistoryPage: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between pt-2">
-                  <div className="flex items-center gap-4">
-                    <div className="flex items-center gap-1">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2 border-t border-slate-800/80">
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
+                    <div className="flex items-center gap-1.5">
                       <span className="text-xs text-slate-400 mr-1">Rating:</span>
                       {[1, 2, 3, 4, 5].map((s) => (
                         <button
                           key={s}
                           type="button"
                           onClick={() => setDayRating(dayRating === s ? null : s)}
-                          className={`text-xs px-2 py-0.5 rounded ${
-                            dayRating === s ? 'bg-amber-500 text-slate-950 font-bold' : 'bg-slate-800 text-slate-300'
+                          className={`min-w-[32px] h-8 rounded-lg text-xs font-bold transition-all ${
+                            dayRating === s ? 'bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20' : 'bg-slate-800 text-slate-300'
                           }`}
                         >
-                          {s}
+                          {s}★
                         </button>
                       ))}
                     </div>
@@ -410,9 +412,9 @@ export const HistoryPage: React.FC = () => {
                         id="history-rest-toggle"
                         checked={isRestDay}
                         onChange={(e) => setIsRestDay(e.target.checked)}
-                        className="rounded bg-slate-950 border-slate-800 text-purple-500"
+                        className="w-4 h-4 rounded bg-slate-950 border-slate-800 text-purple-500"
                       />
-                      <label htmlFor="history-rest-toggle" className="text-xs text-slate-300">
+                      <label htmlFor="history-rest-toggle" className="text-xs text-slate-300 select-none">
                         Rest day
                       </label>
                     </div>
@@ -421,7 +423,7 @@ export const HistoryPage: React.FC = () => {
                   <button
                     onClick={handleSaveReview}
                     disabled={reviewSaving}
-                    className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold bg-emerald-500 hover:bg-emerald-600 text-white"
+                    className="w-full sm:w-auto flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl text-xs font-semibold bg-emerald-500 hover:bg-emerald-600 text-white shadow-md shadow-emerald-500/20"
                   >
                     <Save className="w-3.5 h-3.5" />
                     <span>{reviewSaving ? 'Saving...' : 'Save Review'}</span>

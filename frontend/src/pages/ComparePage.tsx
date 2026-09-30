@@ -238,8 +238,8 @@ export const ComparePage: React.FC = () => {
 
       {/* Comparison Table */}
       {!loading && data && (
-        <div className="bg-slate-900/60 border border-slate-800 rounded-2xl overflow-hidden shadow-sm">
-          <table className="w-full text-left text-xs">
+        <div className="bg-slate-900/60 border border-slate-800 rounded-2xl overflow-x-auto shadow-sm">
+          <table className="w-full min-w-[500px] text-left text-xs">
             <thead className="bg-slate-950/70 border-b border-slate-800 text-slate-400 font-semibold uppercase tracking-wider">
               <tr>
                 <th className="py-3 px-4">Metric</th>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { X, Check, Star, Clock, ChevronDown, ChevronUp, AlertCircle, HelpCircle } from 'lucide-react';
 import { ActivityInstance, Status } from '../types';
 import { CategoryBadge } from './CategoryBadge';
-import { formatTimeDisplay, timeToMinutes } from '../utils/dates';
+import { timeToMinutes } from '../utils/dates';
 
 interface QuickLogModalProps {
   instance: ActivityInstance | null;
@@ -102,14 +102,20 @@ export const QuickLogModal: React.FC<QuickLogModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-end sm:items-center justify-center sm:p-4">
+      {/* Mobile Slide-Up Bottom Sheet */}
       <div
-        className="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-lg overflow-hidden shadow-2xl animate-in fade-in zoom-in-95 duration-150"
+        className="bg-slate-900 border-t sm:border border-slate-800 rounded-t-3xl sm:rounded-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto shadow-2xl animate-in slide-in-from-bottom duration-200 pb-safe sm:pb-0"
         role="dialog"
         aria-modal="true"
       >
+        {/* Mobile Drag Indicator */}
+        <div className="sm:hidden flex justify-center pt-3 pb-1">
+          <div className="w-12 h-1.5 rounded-full bg-slate-700"></div>
+        </div>
+
         {/* Header */}
-        <div className="flex items-center justify-between p-5 border-b border-slate-800">
+        <div className="flex items-center justify-between p-4 sm:p-5 border-b border-slate-800">
           <div>
             <div className="flex items-center gap-2 mb-1">
               <CategoryBadge category={instance.category} size="sm" />
@@ -118,34 +124,34 @@ export const QuickLogModal: React.FC<QuickLogModalProps> = ({
                 {instance.planned_end ? ` – ${instance.planned_end}` : ''}
               </span>
             </div>
-            <h2 className="text-lg font-bold text-white">{instance.title}</h2>
+            <h2 className="text-base sm:text-lg font-bold text-white">{instance.title}</h2>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800 transition-colors"
+            className="p-2 rounded-xl text-slate-400 hover:text-slate-200 hover:bg-slate-800 transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        {/* Quick Log Action Buttons */}
-        <div className="p-5 space-y-4">
+        {/* Quick Log Action Buttons (Big Thumb Targets) */}
+        <div className="p-4 sm:p-5 space-y-4">
           <div>
-            <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">
-              Mark as (one tap to save)
+            <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2.5">
+              Mark Activity (One Tap)
             </label>
-            <div className="grid grid-cols-4 gap-2">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
               <button
                 type="button"
                 disabled={saving}
                 onClick={() => handleQuickStatusClick('completed')}
-                className={`py-3 px-2 rounded-xl text-xs font-semibold flex flex-col items-center gap-1.5 transition-all ${
+                className={`py-3.5 px-3 rounded-2xl text-xs font-bold flex items-center justify-center gap-2 transition-all active:scale-95 ${
                   status === 'completed'
-                    ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/20'
-                    : 'bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 hover:bg-emerald-500/20'
+                    ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/25 ring-2 ring-emerald-400'
+                    : 'bg-emerald-500/10 text-emerald-300 border border-emerald-500/25 hover:bg-emerald-500/20'
                 }`}
               >
-                <Check className="w-4 h-4" />
+                <Check className="w-4 h-4 stroke-[3]" />
                 <span>Done</span>
               </button>
 
@@ -153,10 +159,10 @@ export const QuickLogModal: React.FC<QuickLogModalProps> = ({
                 type="button"
                 disabled={saving}
                 onClick={() => handleQuickStatusClick('partial')}
-                className={`py-3 px-2 rounded-xl text-xs font-semibold flex flex-col items-center gap-1.5 transition-all ${
+                className={`py-3.5 px-3 rounded-2xl text-xs font-bold flex items-center justify-center gap-2 transition-all active:scale-95 ${
                   status === 'partial'
-                    ? 'bg-amber-500 text-white shadow-lg shadow-amber-500/20'
-                    : 'bg-amber-500/10 text-amber-300 border border-amber-500/20 hover:bg-amber-500/20'
+                    ? 'bg-amber-500 text-white shadow-lg shadow-amber-500/25 ring-2 ring-amber-400'
+                    : 'bg-amber-500/10 text-amber-300 border border-amber-500/25 hover:bg-amber-500/20'
                 }`}
               >
                 <Clock className="w-4 h-4" />
@@ -167,10 +173,10 @@ export const QuickLogModal: React.FC<QuickLogModalProps> = ({
                 type="button"
                 disabled={saving}
                 onClick={() => handleQuickStatusClick('missed')}
-                className={`py-3 px-2 rounded-xl text-xs font-semibold flex flex-col items-center gap-1.5 transition-all ${
+                className={`py-3.5 px-3 rounded-2xl text-xs font-bold flex items-center justify-center gap-2 transition-all active:scale-95 ${
                   status === 'missed'
-                    ? 'bg-rose-500 text-white shadow-lg shadow-rose-500/20'
-                    : 'bg-rose-500/10 text-rose-300 border border-rose-500/20 hover:bg-rose-500/20'
+                    ? 'bg-rose-500 text-white shadow-lg shadow-rose-500/25 ring-2 ring-rose-400'
+                    : 'bg-rose-500/10 text-rose-300 border border-rose-500/25 hover:bg-rose-500/20'
                 }`}
               >
                 <AlertCircle className="w-4 h-4" />
@@ -181,9 +187,9 @@ export const QuickLogModal: React.FC<QuickLogModalProps> = ({
                 type="button"
                 disabled={saving}
                 onClick={() => handleQuickStatusClick('skipped')}
-                className={`py-3 px-2 rounded-xl text-xs font-semibold flex flex-col items-center gap-1.5 transition-all ${
+                className={`py-3.5 px-3 rounded-2xl text-xs font-bold flex items-center justify-center gap-2 transition-all active:scale-95 ${
                   status === 'skipped'
-                    ? 'bg-slate-600 text-white shadow-lg shadow-slate-600/20'
+                    ? 'bg-slate-600 text-white shadow-lg shadow-slate-600/25 ring-2 ring-slate-400'
                     : 'bg-slate-800 text-slate-300 border border-slate-700 hover:bg-slate-700'
                 }`}
               >
@@ -197,9 +203,9 @@ export const QuickLogModal: React.FC<QuickLogModalProps> = ({
           <button
             type="button"
             onClick={() => setExpanded(!expanded)}
-            className="w-full flex items-center justify-between text-xs text-slate-400 hover:text-slate-300 py-2 border-t border-slate-800/80"
+            className="w-full flex items-center justify-between text-xs text-slate-400 hover:text-slate-200 py-2.5 border-t border-slate-800/80"
           >
-            <span>Add details (duration, metric, rating, notes)</span>
+            <span>{expanded ? 'Hide optional details' : 'Add duration, notes, or rating'}</span>
             {expanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
           </button>
 
@@ -212,10 +218,11 @@ export const QuickLogModal: React.FC<QuickLogModalProps> = ({
                   <label className="block text-xs text-slate-400 mb-1">Duration (minutes)</label>
                   <input
                     type="number"
+                    inputMode="numeric"
                     min="0"
                     value={duration}
                     onChange={(e) => setDuration(parseInt(e.target.value, 10) || 0)}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-slate-600"
+                    className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2.5 text-sm text-white focus:outline-none focus:border-slate-600 font-mono"
                   />
                 </div>
 
@@ -226,22 +233,23 @@ export const QuickLogModal: React.FC<QuickLogModalProps> = ({
                     </label>
                     <input
                       type="number"
+                      inputMode="decimal"
                       step="any"
                       min="0"
                       placeholder="e.g. 3"
                       value={metricValue}
                       onChange={(e) => setMetricValue(e.target.value)}
-                      className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-slate-600"
+                      className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2.5 text-sm text-white focus:outline-none focus:border-slate-600 font-mono"
                     />
                   </div>
                 ) : (
                   <div>
-                    <label className="block text-xs text-slate-400 mb-1">Actual start time</label>
+                    <label className="block text-xs text-slate-400 mb-1">Actual Start</label>
                     <input
                       type="time"
                       value={actualStart}
                       onChange={(e) => setActualStart(e.target.value)}
-                      className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-slate-600"
+                      className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-slate-600 font-mono"
                     />
                   </div>
                 )}
@@ -249,14 +257,14 @@ export const QuickLogModal: React.FC<QuickLogModalProps> = ({
 
               {/* Rating 1-5 */}
               <div>
-                <label className="block text-xs text-slate-400 mb-1">Rating (optional)</label>
+                <label className="block text-xs text-slate-400 mb-1.5">Rating (optional)</label>
                 <div className="flex items-center gap-2">
                   {[1, 2, 3, 4, 5].map((star) => (
                     <button
                       key={star}
                       type="button"
                       onClick={() => setRating(rating === star ? null : star)}
-                      className="p-1 rounded hover:bg-slate-800 transition-colors"
+                      className="p-2 rounded-xl bg-slate-950 border border-slate-800 hover:bg-slate-800 transition-colors"
                     >
                       <Star
                         className={`w-5 h-5 ${
@@ -271,7 +279,7 @@ export const QuickLogModal: React.FC<QuickLogModalProps> = ({
                     <button
                       type="button"
                       onClick={() => setRating(null)}
-                      className="text-xs text-slate-400 hover:text-slate-400 ml-2"
+                      className="text-xs text-slate-400 hover:text-slate-300 ml-2"
                     >
                       clear
                     </button>
@@ -287,7 +295,7 @@ export const QuickLogModal: React.FC<QuickLogModalProps> = ({
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
                   placeholder="How did this session go?"
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-slate-600 resize-none"
+                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2.5 text-sm text-white placeholder-slate-600 focus:outline-none focus:border-slate-600 resize-none"
                 />
               </div>
 
@@ -295,7 +303,7 @@ export const QuickLogModal: React.FC<QuickLogModalProps> = ({
                 <button
                   type="button"
                   onClick={onClose}
-                  className="px-4 py-2 rounded-xl text-sm font-medium text-slate-400 hover:text-slate-200 hover:bg-slate-800 transition-colors"
+                  className="px-4 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:text-slate-200"
                 >
                   Cancel
                 </button>
@@ -303,7 +311,7 @@ export const QuickLogModal: React.FC<QuickLogModalProps> = ({
                   type="button"
                   disabled={saving}
                   onClick={handleFullSave}
-                  className="px-5 py-2 rounded-xl text-sm font-semibold bg-emerald-500 hover:bg-emerald-600 text-white shadow-md shadow-emerald-500/20 transition-all"
+                  className="px-6 py-2.5 rounded-xl text-sm font-bold bg-emerald-500 hover:bg-emerald-600 text-white shadow-md shadow-emerald-500/20 transition-all"
                 >
                   {saving ? 'Saving...' : 'Save details'}
                 </button>
